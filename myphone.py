@@ -1,4 +1,4 @@
-number = '+254721452652'
+number = '+254712345678'
 import phonenumbers
 import opencage
 import folium
