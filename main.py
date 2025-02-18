@@ -45,3 +45,20 @@ def track():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+# New route to fetch weather information
+@app.route('/weather', methods=['POST'])
+def get_weather():
+    data = request.json
+    location = data.get("location")
+    
+    if not location:
+        return jsonify({"status": "error", "message": "Location not provided"}), 400
+    
+    weather_url = f"http://api.openweathermap.org/data/2.5/weather?q={location}&appid=YOUR_OPENWEATHER_API_KEY"
+    response = requests.get(weather_url)
+    
+    if response.status_code == 200:
+        weather_data = response.json()
+        return jsonify({"status": "success", "weather": weather_data}), 200
+    return jsonify({"status": "error", "message": "Weather data not found"}), 404
